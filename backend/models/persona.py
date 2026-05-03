@@ -6,9 +6,10 @@ from dataclasses import dataclass
 
 @dataclass
 class Persona(ABC):
-    # Abstraccion: esta clase define los datos comunes de cualquier persona.
     nombre: str
-    identificacion: str
+    identificacion: str  # Puede ser el CI
+    genero: str          # Útil para estadísticas de salud
+    fecha_nacimiento: str # Formato "DD/MM/AAAA"
 
     @abstractmethod
     def obtener_tipo(self) -> str:
