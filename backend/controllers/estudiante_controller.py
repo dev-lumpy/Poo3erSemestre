@@ -4,7 +4,7 @@ from backend.daos.estudiante_dao import EstudianteDAO
 from backend.models.estudiante import Estudiante
 
 
-class EstudianteController:
+class ControlEstudiante:
     def __init__(self, estudiante_dao: EstudianteDAO | None = None) -> None:
         self.estudiante_dao = estudiante_dao or EstudianteDAO()
 

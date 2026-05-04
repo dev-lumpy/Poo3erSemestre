@@ -4,14 +4,14 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 from typing import Callable
 
-from backend.controllers.estudiante_controller import EstudianteController
+from backend.controllers.estudiante_controller import ControlEstudiante
 
 
-class RegistroGUI(tk.Toplevel):
+class RegistroEstudiante(tk.Toplevel):
     def __init__(
         self,
         parent: tk.Misc,
-        estudiante_controller: EstudianteController,
+        estudiante_controller: ControlEstudiante,
         on_guardado: Callable[[], None] | None = None,
     ) -> None:
         super().__init__(parent)

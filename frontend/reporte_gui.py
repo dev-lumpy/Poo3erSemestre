@@ -3,7 +3,7 @@ from __future__ import annotations
 import tkinter as tk
 from tkinter import ttk
 
-from backend.controllers.estudiante_controller import EstudianteController
+from backend.controllers.estudiante_controller import ControlEstudiante
 from backend.controllers.salud_controller import SaludController
 
 
@@ -11,7 +11,7 @@ class ReporteGUI(tk.Toplevel):
     def __init__(
         self,
         parent: tk.Misc,
-        estudiante_controller: EstudianteController,
+        estudiante_controller: ControlEstudiante,
         salud_controller: SaludController,
     ) -> None:
         super().__init__(parent)
