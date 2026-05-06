@@ -1,4 +1,5 @@
 from __future__ import annotations
+import logging
 
 import tkinter as tk
 from tkinter import ttk
@@ -6,6 +7,7 @@ from tkinter import ttk
 from backend.controllers.estudiante_controller import ControlEstudiante
 from backend.controllers.salud_controller import SaludController
 
+logger = logging.getLogger(__name__)
 
 class ReporteGUI(tk.Toplevel):
     def __init__(

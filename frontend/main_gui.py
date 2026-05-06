@@ -11,18 +11,18 @@ from backend.controllers import salud_controller
 from frontend.reporte_gui import ReporteGUI
 from frontend.registro_gui import RegistroEstudiante
 
-from .lib.style_main_gui import StyleMainGUI
+from .lib_gui.style_main_gui import StyleMainGUI
 
 
 class SistemaPrincipal(StyleMainGUI):
     # ── Callbacks para botones ───────────────────────────────────────────────────
 
     def abrir_registro_de_estudiantes(self):
-        RegistroEstudiante(self, estudiante_controller, salud_controller)
+        RegistroEstudiante(self.root, estudiante_controller, salud_controller)
 
 
     def abrir_registro_de_control_de_salud(self):
-        ReporteGUI(self, ControlEstudiante(), SaludController())
+        ReporteGUI(self.root, ControlEstudiante(), SaludController())
 
     def abrir_busqueda_estudiante(self):
         print(super().abrir_busqueda_estudiante())
