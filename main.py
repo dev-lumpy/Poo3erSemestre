@@ -9,7 +9,7 @@ logging.basicConfig(
 
 def main() -> None:
     app = SistemaPrincipal()
-    app.root.mainloop()
+    app.mainloop()
 
 
 if __name__ == "__main__":

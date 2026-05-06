@@ -3,6 +3,7 @@ import logging
 
 import tkinter as tk
 from tkinter import ttk
+from typing import cast, Any
 
 from backend.controllers.estudiante_controller import ControlEstudiante
 from backend.controllers.salud_controller import SaludController
@@ -24,6 +25,10 @@ class ReporteGUI(tk.Toplevel):
 
         self._crear_widgets()
         self._cargar_datos()
+
+        self.attributes('-type', 'dialog') # Le dice a Sway: "Soy un cuadro de diálogo" 
+        self.transient(cast(Any, parent))  # "Soy hija de la ventana principal"
+        self.grab_set()                    # "Soy la ventana principal"
 
     def _crear_widgets(self) -> None:
         contenedor = ttk.Frame(self, padding=16)

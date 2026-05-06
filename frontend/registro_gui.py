@@ -81,3 +81,4 @@ class RegistroEstudiante(tk.Toplevel):
         self.altura_var.set("")
         if self.on_guardado is not None:
             self.on_guardado()
+

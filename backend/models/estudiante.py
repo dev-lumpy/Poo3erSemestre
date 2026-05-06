@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import logging
 
 from backend.models.evaluable import IEvaluable
-from backend.models.persona import Persona
+from backend.models.persona import EstudianteData, Persona
 
 # Configuramos un logger para este módulo específico
 logger = logging.getLogger(__name__)
@@ -13,6 +13,10 @@ logger = logging.getLogger(__name__)
 class Estudiante(Persona, IEvaluable):
     peso: float
     altura: float
+
+    matricula: str
+    carrera: str
+    semestre: str
 
     def obtener_tipo(self) -> str:
         return "Estudiante"
@@ -49,16 +53,28 @@ class Estudiante(Persona, IEvaluable):
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, object]) -> "Estudiante":
+    def from_dict(cls, data: EstudianteData) -> "Estudiante":
         """
         Punto crítico: Aquí es donde suele fallar si el JSON tiene basura.
         """
         try:
             return cls(
-                nombre=str(data["nombre"]),
-                identificacion=str(data["identificacion"]),
-                peso=float(data.get("peso", 0)),
-                altura=float(data.get("altura", 0)),
+                nombre=data["nombre"],
+                identificacion=data["identificacion"],
+                genero=data["genero"],
+                fecha_nacimiento=data["fecha_nacimiento"],
+                correo_institucional=data["correo_institucional"],
+                telefono=data["telefono"],
+                direccion=data["direccion"],
+
+                # Si es Estudiante, añade estos:
+                matricula=data.get("matricula", "N/A"),
+                carrera=data.get("carrera", "N/A"),
+                semestre=data.get("semestre", "N/A"),
+
+                # Algunos datos adicionales:
+                peso=data.get("peso", 0.0),
+                altura=data.get("altura", 0.0),
             )
         except KeyError as e:
             logger.error(f"¡CABUM! Falta un campo obligatorio en el JSON: {e}")
