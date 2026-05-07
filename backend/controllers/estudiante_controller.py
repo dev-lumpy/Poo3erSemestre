@@ -54,3 +54,20 @@ class ControlEstudiante:
 
     def listar_estudiantes(self) -> list[Estudiante]:
         return self.estudiante_dao.listar()
+    
+    def buscar_estudiante(self, query: str) -> Estudiante | None:
+        """Busca un estudiante por nombre o ID (identificación)."""
+        query_lower = query.lower().strip()
+        estudiantes = self.listar_estudiantes()
+        
+        # Primero intenta buscar por ID exacto
+        for est in estudiantes:
+            if est.identificacion.lower() == query_lower:
+                return est
+        
+        # Luego intenta buscar por nombre (parcial)
+        for est in estudiantes:
+            if query_lower in est.nombre.lower():
+                return est
+        
+        return None

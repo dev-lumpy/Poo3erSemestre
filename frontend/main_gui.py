@@ -89,7 +89,16 @@ class SistemaPrincipal(BaseVentana):
 
     def abrir_busqueda_estudiante(self):
         query = self.entry_buscador.get()
-        print(f"Buscando: {query}")
+        if query and query != "Nombre o ID del estudiante...":
+            estudiante = estudiante_controller.ControlEstudiante().buscar_estudiante(query)
+            if estudiante:
+                from .reporte_estudiante import ReporteEstudiante
+                ReporteEstudiante(self, estudiante)
+            else:
+                print(f"No se encontró ningún estudiante con el nombre o ID '{query}'.")
+        else:
+            print("Por favor, ingrese un nombre o ID válido para buscar.")
+
 
     # --- Lógica del Placeholder ---
     def on_entry_focus_in(self, event):

@@ -7,6 +7,7 @@ from typing import cast, Any
 
 from backend.controllers.estudiante_controller import ControlEstudiante
 from backend.controllers.salud_controller import SaludController
+from frontend.reporte_estudiante import ReporteEstudiante
 
 logger = logging.getLogger(__name__)
 
@@ -22,9 +23,13 @@ class ReporteGUIEstudents(tk.Toplevel):
         self.geometry("760x420")
         self.estudiante_controller = estudiante_controller
         self.salud_controller = salud_controller
+        self.estudiantes_dict = {}
 
         self._crear_widgets()
         self._cargar_datos()
+
+        self.transient(cast(Any, parent))
+        self.grab_set()
 
 
     def _crear_widgets(self) -> None:
@@ -94,6 +99,8 @@ class ReporteGUIEstudents(tk.Toplevel):
         self.tabla.pack(side="left", fill="both", expand=True)
         barra.pack(side="right", fill="y")
         
+        self.tabla.bind("<Double-1>", self._abrir_perfil_estudiante)
+        
 
     def _cargar_datos(self) -> None:
         logger.debug("Cargando datos para el reporte completo de estudiantes...")
@@ -101,6 +108,8 @@ class ReporteGUIEstudents(tk.Toplevel):
         # 1. Limpiar la tabla antes de recargar
         for item in self.tabla.get_children():
             self.tabla.delete(item)
+        
+        self.estudiantes_dict.clear()
 
         # 2. Obtener la lista de objetos Estudiante
         estudiantes = self.estudiante_controller.listar_estudiantes()
@@ -108,7 +117,7 @@ class ReporteGUIEstudents(tk.Toplevel):
         # 3. Iterar directamente sobre la lista de objetos
         for est in estudiantes:
             # Insertamos en la tabla accediendo a las propiedades del objeto Estudiante
-            self.tabla.insert(
+            item_id = self.tabla.insert(
                 "",
                 "end",
                 values=(
@@ -126,6 +135,20 @@ class ReporteGUIEstudents(tk.Toplevel):
                     f"{est.altura} m",
                 ),
             )
+            # Guardar referencia al estudiante
+            self.estudiantes_dict[item_id] = est
         
         logger.debug(f"Se han cargado {len(estudiantes)} estudiantes a la tabla.")
+    
+    def _abrir_perfil_estudiante(self, event) -> None:
+        """Abre el perfil elegante del estudiante al hacer doble clic en la tabla."""
+        seleccion = self.tabla.selection()
+        if not seleccion:
+            return
+        
+        item_id = seleccion[0]
+        if item_id in self.estudiantes_dict:
+            estudiante = self.estudiantes_dict[item_id]
+            ReporteEstudiante(self, estudiante)
+            logger.debug(f"Abriendo perfil de {estudiante.nombre}")
 
