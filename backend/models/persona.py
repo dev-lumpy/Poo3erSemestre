@@ -27,6 +27,8 @@ class Persona(ABC):
     telefono: str
     direccion: str
 
+    image: str
+
     @abstractmethod
     def obtener_tipo(self) -> str:
         """Devuelve si es 'Estudiante', 'Docente' o 'Administrativo'."""

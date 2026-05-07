@@ -12,8 +12,15 @@ class ControlEstudiante:
         self,
         nombre: str,
         identificacion: str,
-        peso: float,
-        altura: float,
+        genero_limpio: str,
+        fecha_nacimiento_limpia: str,
+        correo_institucional_limpio: str,
+        telefono_limpio: str,
+        direccion_limpia: str,
+        matricula_limpia: str,
+        carrera_limpia: str,
+        semestre_limpio: str,
+        image: str
     ) -> Estudiante:
         nombre_limpio = nombre.strip()
         identificacion_limpia = identificacion.strip()
@@ -22,16 +29,25 @@ class ControlEstudiante:
             raise ValueError("El nombre es obligatorio.")
         if not identificacion_limpia:
             raise ValueError("La identificacion es obligatoria.")
-        if peso <= 0:
-            raise ValueError("El peso debe ser mayor que cero.")
-        if altura <= 0:
-            raise ValueError("La altura debe ser mayor que cero.")
 
         estudiante = Estudiante(
             nombre=nombre_limpio,
             identificacion=identificacion_limpia,
-            peso=peso,
-            altura=altura,
+            genero=genero_limpio,
+            fecha_nacimiento=fecha_nacimiento_limpia,
+            correo_institucional=correo_institucional_limpio,
+            telefono=telefono_limpio,
+            direccion=direccion_limpia,
+
+            # Si es Estudiante, añade estos:
+            matricula=matricula_limpia,
+            carrera=carrera_limpia,
+            semestre=semestre_limpio,
+
+            # Algunos datos adicionales:
+            peso=0.0,
+            altura=0.0,
+            image=image
         )
         self.estudiante_dao.guardar(estudiante)
         return estudiante

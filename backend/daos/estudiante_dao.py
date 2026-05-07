@@ -14,13 +14,20 @@ class EstudianteDAO:
     def listar(self) -> list[Estudiante]:
         return [Estudiante.from_dict(item) for item in self.json_handler.leer()]
 
-    def guardar(self, estudiante: Estudiante) -> None:
+    def guardar(self, estudiante: Estudiante) -> int:
+        if self.buscar_por_identificacion(estudiante.identificacion):
+            return 1
+
+        
+
         estudiantes = self.json_handler.leer()
         estudiantes = [
             item for item in estudiantes if str(item.get("identificacion")) != estudiante.identificacion
         ]
         estudiantes.append(estudiante.to_dict())
         self.json_handler.escribir(estudiantes)
+
+        return 0
 
     def buscar_por_identificacion(self, identificacion: str) -> Estudiante | None:
         for estudiante in self.listar():

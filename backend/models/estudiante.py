@@ -48,8 +48,17 @@ class Estudiante(Persona, IEvaluable):
         return {
             "nombre": self.nombre,
             "identificacion": self.identificacion,
+            "genero": self.genero,
+            "fecha_nacimiento": self.fecha_nacimiento,
+            "correo_institucional": self.correo_institucional,
+            "telefono": self.telefono,
+            "direccion": self.direccion,
             "peso": self.peso,
             "altura": self.altura,
+            "matricula": getattr(self, "matricula", "N/A"),
+            "carrera": getattr(self, "carrera", "N/A"),
+            "semestre": getattr(self, "semestre", "N/A"),
+            "image": getattr(self, "image", "perfil_defecto.png"),
         }
 
     @classmethod
@@ -66,6 +75,8 @@ class Estudiante(Persona, IEvaluable):
                 correo_institucional=data["correo_institucional"],
                 telefono=data["telefono"],
                 direccion=data["direccion"],
+                peso=float(data["peso"]),
+                altura=float(data["altura"]),
 
                 # Si es Estudiante, añade estos:
                 matricula=data.get("matricula", "N/A"),
@@ -73,8 +84,7 @@ class Estudiante(Persona, IEvaluable):
                 semestre=data.get("semestre", "N/A"),
 
                 # Algunos datos adicionales:
-                peso=data.get("peso", 0.0),
-                altura=data.get("altura", 0.0),
+                image=data.get("image", "perfil_defecto.png")
             )
         except KeyError as e:
             logger.error(f"¡CABUM! Falta un campo obligatorio en el JSON: {e}")
