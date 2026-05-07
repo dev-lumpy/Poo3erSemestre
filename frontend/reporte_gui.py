@@ -10,7 +10,7 @@ from backend.controllers.salud_controller import SaludController
 
 logger = logging.getLogger(__name__)
 
-class ReporteGUI(tk.Toplevel):
+class ReporteGUIEstudents(tk.Toplevel):
     def __init__(
         self,
         parent: tk.Misc,
@@ -18,7 +18,7 @@ class ReporteGUI(tk.Toplevel):
         salud_controller: SaludController,
     ) -> None:
         super().__init__(parent)
-        self.title("Reporte de Salud")
+        self.title("Reporte de Estudiantes Registrados")
         self.geometry("760x420")
         self.estudiante_controller = estudiante_controller
         self.salud_controller = salud_controller
@@ -26,11 +26,9 @@ class ReporteGUI(tk.Toplevel):
         self._crear_widgets()
         self._cargar_datos()
 
-        self.attributes('-type', 'dialog') # Le dice a Sway: "Soy un cuadro de diálogo" 
-        self.transient(cast(Any, parent))  # "Soy hija de la ventana principal"
-        self.grab_set()                    # "Soy la ventana principal"
 
     def _crear_widgets(self) -> None:
+        logger.debug("Creando widgets para el reporte de estudiantes")
         contenedor = ttk.Frame(self, padding=16)
         contenedor.pack(fill="both", expand=True)
 
@@ -41,24 +39,49 @@ class ReporteGUI(tk.Toplevel):
         )
         ttk.Button(encabezado, text="Actualizar", command=self._cargar_datos).pack(side="right")
 
-        columnas = ("nombre", "identificacion", "peso", "altura", "imc", "clasificacion")
+        columnas = (
+            "nombre",
+            "identificacion",
+            "genero",
+            "fecha_nacimiento",
+            "correo_institucional",
+            "telefono",
+            "direccion",
+            "carrera",
+            "semestre",
+            "matricula",
+            "peso",
+            "altura",
+        )
         self.tabla = ttk.Treeview(contenedor, columns=columnas, show="headings", height=12)
 
         encabezados = {
             "nombre": "Nombre",
             "identificacion": "Identificacion",
+            "genero": "Género",
+            "fecha_nacimiento": "Fecha Nac.",
+            "correo_institucional": "Correo",
+            "telefono": "Teléfono",
+            "direccion": "Dirección",
+            "carrera": "Carrera",
+            "semestre": "Semestre",
+            "matricula": "Matrícula",
             "peso": "Peso",
             "altura": "Altura",
-            "imc": "IMC",
-            "clasificacion": "Clasificacion",
         }
         anchos = {
-            "nombre": 170,
+            "nombre": 150,
             "identificacion": 120,
-            "peso": 90,
-            "altura": 90,
-            "imc": 80,
-            "clasificacion": 150,
+            "genero": 70,
+            "fecha_nacimiento": 120,
+            "correo_institucional": 150,
+            "telefono": 100,
+            "direccion": 120,
+            "carrera": 120,
+            "semestre": 90,
+            "matricula": 100,
+            "peso": 80,
+            "altura": 80,
         }
 
         for columna in columnas:
@@ -70,24 +93,39 @@ class ReporteGUI(tk.Toplevel):
 
         self.tabla.pack(side="left", fill="both", expand=True)
         barra.pack(side="right", fill="y")
+        
 
     def _cargar_datos(self) -> None:
+        logger.debug("Cargando datos para el reporte completo de estudiantes...")
+        
+        # 1. Limpiar la tabla antes de recargar
         for item in self.tabla.get_children():
             self.tabla.delete(item)
 
+        # 2. Obtener la lista de objetos Estudiante
         estudiantes = self.estudiante_controller.listar_estudiantes()
-        reportes = self.salud_controller.obtener_resumenes(estudiantes)
 
-        for reporte in reportes:
+        # 3. Iterar directamente sobre la lista de objetos
+        for est in estudiantes:
+            # Insertamos en la tabla accediendo a las propiedades del objeto Estudiante
             self.tabla.insert(
                 "",
                 "end",
                 values=(
-                    reporte["nombre"],
-                    reporte["identificacion"],
-                    reporte["peso"],
-                    reporte["altura"],
-                    reporte["imc"],
-                    reporte["clasificacion"],
+                    est.nombre,
+                    est.identificacion,
+                    est.genero,
+                    est.fecha_nacimiento,
+                    est.correo_institucional,
+                    est.telefono,
+                    est.direccion,
+                    est.carrera,
+                    est.semestre,
+                    est.matricula,
+                    f"{est.peso} kg",
+                    f"{est.altura} m",
                 ),
             )
+        
+        logger.debug(f"Se han cargado {len(estudiantes)} estudiantes a la tabla.")
+

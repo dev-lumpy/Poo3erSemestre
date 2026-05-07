@@ -5,7 +5,7 @@ import tkinter as tk
 from backend.controllers import estudiante_controller
 from backend.controllers import salud_controller
 
-from .reporte_gui import ReporteGUI
+from .reporte_gui import ReporteGUIEstudents
 from .registro_gui import RegistroEstudiante
 
 from .lib_gui.base_window import BaseVentana
@@ -48,12 +48,12 @@ class SistemaPrincipal(BaseVentana):
                                   fg=AppStyle.COLORS["text_dark"])
         self.lbl_buscar.pack(anchor="w")
 
-        # Frame para agrupar Entry + Botón Buscar
+        # Frame para agrupar Entry + Botones
         search_frame = tk.Frame(self.main_frame, bg=AppStyle.COLORS["panel"])
         search_frame.pack(fill="x", pady=10)
 
         self.entry_buscador = tk.Entry(search_frame)
-        AppStyle.estilo_entrada(self.entry_buscador) # Usamos el estilo centralizado
+        AppStyle.estilo_entrada(self.entry_buscador)
         self.entry_buscador.insert(0, "Nombre o ID del estudiante...")
         self.entry_buscador.config(fg=AppStyle.COLORS["placeholder"])
         
@@ -61,19 +61,31 @@ class SistemaPrincipal(BaseVentana):
         self.entry_buscador.bind("<FocusIn>", self.on_entry_focus_in)
         self.entry_buscador.bind("<FocusOut>", self.on_entry_focus_out)
         
+        # El entry se expande para ocupar el espacio restante
         self.entry_buscador.pack(side="left", fill="x", expand=True, ipady=8, padx=(0, 5))
 
+        # Botón Buscar
         btn_buscar = tk.Button(search_frame, text="Buscar", command=self.abrir_busqueda_estudiante)
         AppStyle.estilo_boton(btn_buscar)
-        btn_buscar.config(pady=8) # Ajuste de padding para que no sea tan alto como los otros
-        btn_buscar.pack(side="right")
+        btn_buscar.config(pady=8) 
+        btn_buscar.pack(side="left", padx=5) # Cambiado a side="left" para que queden en fila
+
+        # Nuevo Botón ESTUDIANTES
+        # Nota: Usamos la misma configuración que btn_buscar para que sean iguales
+        btn_estudiantes = tk.Button(search_frame, text="Estudiantes", command=self.abrir_estudiantes_registrados)
+        AppStyle.estilo_boton(btn_estudiantes)
+        btn_estudiantes.config(pady=8)
+        btn_estudiantes.pack(side="left") # Se coloca a la derecha del anterior
 
     # --- Lógica de Callbacks ---
     def abrir_registro_de_estudiantes(self):
         RegistroEstudiante(self, estudiante_controller.ControlEstudiante())
 
+    def abrir_estudiantes_registrados(self):
+        ReporteGUIEstudents(self, estudiante_controller.ControlEstudiante(), salud_controller.SaludController())
+
     def abrir_registro_de_control_de_salud(self):
-        ReporteGUI(self, estudiante_controller.ControlEstudiante(), salud_controller.SaludController())
+        print("Abriendo Registro de Control de Salud... (Funcionalidad en desarrollo)")
 
     def abrir_busqueda_estudiante(self):
         query = self.entry_buscador.get()
