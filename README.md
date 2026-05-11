@@ -1,6 +1,8 @@
 
 # Sistema de Seguimiento de Salud Escolar
 
+### Proyecto academico para la materia de Programacion Orientada a Objetos
+
 Aplicación en Python con Programación Orientada a Objetos y arquitectura de tres capas:
 
 - **Front-End:** Tkinter (interfaz gráfica)
