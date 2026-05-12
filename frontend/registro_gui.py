@@ -20,7 +20,7 @@ class RegistroEstudiante(tk.Toplevel):
     ) -> None:
         super().__init__(parent)
         self.title("Registro de Estudiantes")
-        self.geometry("700x650")
+        self.geometry("900x750")
         self.resizable(False, False)
         self.estudiante_controller = estudiante_controller
         self.on_guardado = on_guardado
