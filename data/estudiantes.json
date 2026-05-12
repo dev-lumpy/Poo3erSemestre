@@ -148,5 +148,20 @@
         "carrera": "",
         "semestre": "",
         "image": "backend/image/perfil_defecto.png"
+    },
+    {
+        "nombre": "zorra",
+        "identificacion": "1234",
+        "genero": "F",
+        "fecha_nacimiento": "12/05/2026",
+        "correo_institucional": "blabla@uab.edu.bo",
+        "telefono": "7234434",
+        "direccion": "por ahi",
+        "peso": 0.0,
+        "altura": 0.0,
+        "matricula": "",
+        "carrera": "Sistemas",
+        "semestre": "3",
+        "image": "backend/image\\FONDO-DE-PANTALLA.jpg"
     }
 ]

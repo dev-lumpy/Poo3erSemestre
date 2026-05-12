@@ -7,6 +7,7 @@ from backend.controllers import salud_controller
 
 from .reporte_gui import ReporteGUIEstudents
 from .registro_gui import RegistroEstudiante
+from .control_gui_salud import AbstraccionFormularioControlSalud
 
 from .lib_gui.base_window import BaseVentana
 from .lib_gui.styles import AppStyle
@@ -85,7 +86,7 @@ class SistemaPrincipal(BaseVentana):
         ReporteGUIEstudents(self, estudiante_controller.ControlEstudiante(), salud_controller.SaludController())
 
     def abrir_registro_de_control_de_salud(self):
-        print("Abriendo Registro de Control de Salud... (Funcionalidad en desarrollo)")
+        AbstraccionFormularioControlSalud(self).abrir()
 
     def abrir_busqueda_estudiante(self):
         query = self.entry_buscador.get()
