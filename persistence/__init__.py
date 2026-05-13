@@ -1,1 +1,0 @@
-"""Persistencia en JSON."""
